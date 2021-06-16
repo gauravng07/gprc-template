@@ -1,0 +1,22 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+
+service Search {
+    rpc ByQuery(SearchRequest) returns (SearchResponse) {}
+}
+
+message SearchRequest {
+    string query            = 1;
+    int32 pageNumber        = 2;
+    int32 resultPerPage     = 3;
+}
+
+message SearchResponse {
+    string id           = 1;
+    string name         = 2;
+    string category     = 3;
+}
+
+
+
+
