@@ -1,8 +1,10 @@
 syntax = "proto3";
 import "google/protobuf/timestamp.proto";
 
+
 service Search {
     rpc ByQuery(SearchRequest) returns (SearchResponse) {}
+    rpc LongQuery(stream BulkRequest) returns (stream BulkResponse) {}
 }
 
 message SearchRequest {
@@ -16,6 +18,16 @@ message SearchResponse {
     string name         = 2;
     string category     = 3;
 }
+
+message BulkRequest {
+    string first_name   =   1;
+    string last_name    =   2;
+}
+
+message BulkResponse {
+    string result   =   1;
+}
+
 
 
 

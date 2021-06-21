@@ -8,9 +8,11 @@ import (
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 	"gprc-template/pkg/pb/generated/api"
+	"io"
 )
 
 type searchImpl struct {}
+
 
 func NewSearchImpl() api.SearchServer {
 	return &searchImpl{}
@@ -42,4 +44,21 @@ func (s searchImpl) ByQuery(ctx context.Context, request *api.SearchRequest) (*a
 	}, nil
 }
 
+func (s searchImpl) LongQuery(server api.Search_LongQueryServer) error {
+	result := ""
+	for {
+		req, err := server.Recv()
+		if err == io.EOF {
+			return server.Send(&api.BulkResponse{
+				Result: "Data",
+			})
+		}
+		if err != nil {
+			fmt.Printf("error ehile reading client stream %v\n", err)
+		}
+
+		firstName := req.GetFirstName();
+		result += "Hello" + firstName + "!"
+	}
+}
 
